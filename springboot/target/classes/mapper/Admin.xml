@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.AdminMapper">
+    <update id="save">
+        insert into admin(account, password, username, phone)
+        values(#{account}, #{password}, #{username}, #{phone})
+    </update>
+
+    <update id="updateByAccount">
+        update admin set username = #{username}, phone = #{phone} where account = #{account};
+    </update>
+
+    <update id="resetPassword">
+        update admin set password = #{account} where account = #{account}
+    </update>
+
+    <delete id="deleteByAccount">
+        delete from admin where account = #{account};
+
+    </delete>
+
+    <select id="list" resultType="com.example.springboot.entity.Admin">
+        select * from admin
+    </select>
+
+    <select id="listByCondition" resultType="com.example.springboot.entity.Admin">
+        select * from admin
+        <where>
+            <if test="account != null and account != ''">
+                account = #{account}
+            </if>
+            <if test="username != null and username != ''">
+                username like concat(#{username}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getByAccount" resultType="com.example.springboot.entity.Admin">
+        select * from admin where account = #{account}
+
+    </select>
+
+    <select id="getByAccountAndPassword" resultType="com.example.springboot.entity.Admin">
+        select * from admin where account = #{account} and password = #{password}
+    </select>
+
+</mapper>
