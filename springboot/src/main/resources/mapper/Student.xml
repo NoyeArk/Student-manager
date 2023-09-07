@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.StudentMapper">
+    <update id="save">
+        insert into student(sno, name, age, sex, dept, acad, math, english, physics)
+        values(#{sno}, #{name}, #{age}, #{sex}, #{dept}, #{acad}, #{math}, #{english}, #{physics})
+    </update>
+
+    <update id="updateBySno">
+        update student set name = #{name}, age = #{age}, sex = #{sex}, dept = #{dept}, acad = #{acad},
+                           math = #{math}, english = #{english}, physics = #{physics}, password = #{password} where sno = #{sno};
+    </update>
+
+    <delete id="deleteBySno">
+        delete from student where sno = #{sno};
+
+    </delete>
+
+    <select id="list" resultType="com.example.springboot.entity.Student">
+        select * from student
+    </select>
+
+    <select id="listByCondition" resultType="com.example.springboot.entity.Student">
+        select * from student
+        <where>
+            <if test="sno != null and sno != ''">
+                sno = #{sno}
+            </if>
+
+            <if test="name != null and name != ''">
+                name like concat(#{name}, '%')
+            </if>
+        </where>
+#排序
+#         order by sno
+    </select>
+
+    <select id="getBySno" resultType="com.example.springboot.entity.Student">
+        select * from student where sno = #{sno}
+
+    </select>
+
+    <select id="getBySnoAndPassword" resultType="com.example.springboot.entity.Student">
+        select * from student where sno = #{sno} and password = #{password}
+    </select>
+
+</mapper>
